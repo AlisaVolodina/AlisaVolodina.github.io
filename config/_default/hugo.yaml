@@ -1,18 +1,32 @@
-# Configuration of Hugo
-# Guide: https://docs.hugoblox.com/tutorial/
-# Hugo Documentation: https://gohugo.io/getting-started/configuration/#all-configuration-settings
-# This file is formatted using YAML syntax - learn more at https://learnxinyminutes.com/docs/yaml/
+# ================================
+# Hugo Configuration File
+# ================================
 
-# Website name (set in params.yaml under hugoblox.branding.name)
-title: ''
-baseURL: 'https://example.com/' # Website URL
+# Website URL & Title
+title: 'Мой сайт'
+baseURL: 'https://example.com/'
 
-############################
-## PAGE OPTIONS
-############################
+# ================================
+# LANGUAGE 
+# ================================
+
+defaultContentLanguage: en
+hasCJKLanguage: false
+defaultContentLanguageInSubdir: false
+removePathAccents: true
+
+# Явное объявление языков
+languages:
+  en:
+    languageName: English
+    title: 'My Site'
+    weight: 1
+
+# ================================
+# PAGE OPTIONS
+# ================================
 
 cascade:
-  # Blog post options
   - _target:
       path: /blog/**
       kind: page
@@ -24,24 +38,37 @@ cascade:
     commentable: true
     show_related: true
     share: true
-    # Just use Breadcrumb for navigation on blog post pages?
     show_breadcrumb: false
     header:
       navbar:
         enable: true
 
-############################
-## LANGUAGE
-############################
+# ================================
+# CONTENT TYPES & MOUNTS
+# ================================
 
-defaultContentLanguage: en
-hasCJKLanguage: false
-defaultContentLanguageInSubdir: false
-removePathAccents: true
+module:
+  imports:
+    - path: github.com/HugoBlox/hugo-blox-builder/modules/blox-bootstrap/v5
+  mounts:
+    - source: content
+      target: content
+    - source: static
+      target: static
+    - source: assets
+      target: assets
+    - source: content/projects
+      target: content/projects
+    - source: assets/media/projects
+      target: assets/media/projects
 
-############################
-## ADVANCED
-############################
+permalinks:
+  blog: /blog/:slug/
+  projects: /project/:slug/
+
+# ================================
+# ADVANCED SETTINGS
+# ================================
 
 build:
   writeStats: true
@@ -54,21 +81,27 @@ enableRobotsTXT: true
 footnotereturnlinkcontents: <sup>^</sup>
 ignoreFiles: [".ipynb_checkpoints$", "\\.Rmd$", "\\.Rmarkdown$", "_cache$"]
 disableAliases: true
+
 outputs:
   home: [HTML, RSS, headers, redirects, backlinks]
   section: [HTML, RSS]
+
 imaging:
   resampleFilter: lanczos
   quality: 90
   anchor: smart
   hint: picture
+
 timeout: 600000
+
 taxonomies:
   tag: tags
   category: categories
   author: authors
+
 markup:
   _merge: deep
+
 related:
   threshold: 80
   includeNewer: true
@@ -78,6 +111,7 @@ related:
       weight: 100
     - name: categories
       weight: 70
+
 security:
   _merge: deep
 sitemap:
